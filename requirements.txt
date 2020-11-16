@@ -13,6 +13,7 @@ passlib==1.7.4
 Pint==0.16.1
 psycopg2==2.8.6
 pyparsing==2.4.7
+scrypt==0.8.17
 six==1.15.0
 soupsieve==2.0.1
 Werkzeug==1.0.1
