@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+{% block title %}My Account{% endblock %}
+
+
+{% block content %}
+    <h1>My Account</h1>
+
+    <dl>
+        <dt>User ID</dt>
+        <dd>{{ current_user.id }}</dd>
+
+        <dt>Account Actions</dt>
+        <dd><a href="{{ url_for('change_password') }}">Change Password</a></dd>
+    </dl>
+    
+{% endblock content %}

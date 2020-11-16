@@ -1,0 +1,166 @@
+/*********************************/
+/* body styling */
+body {
+	font-size : 1em;
+	font-family : Verdana, sans-serif;
+    clear : left;
+}
+	
+h2 {
+	font-size : 1.75em;
+	margin-bottom : 0.5em;
+	border : solid 1px black;
+	text-align : center;
+	background : #AAA;
+	position : -webkit-sticky;
+	position : sticky;
+	top : 0;
+}
+
+h3 {
+	margin-top : 0.75em;
+	margin-bottom : 0.25em;
+	border-top : solid black 1px;
+	font-size : 1.5em;
+}
+
+p {
+	margin-top : 0;
+	margin-bottom : 0.5em;
+}
+
+blockquote {
+    display:block;
+    background: #fff;
+    padding: 15px 20px 15px 45px;
+    margin: 0 0 20px;
+    position: relative;
+    border-left-style: solid;
+    border-left-width: 15px;
+    border-right-style: solid;
+    border-right-width: 2px;    
+    border-left-color: #656d77;
+    border-right-color: #434a53;  
+}
+
+blockquote::before {
+    content: "\201C"; /*Unicode for Left Double Quote*/
+    font-size : 3em;
+    font-weight : bold;
+    color : #999;
+    position : absolute;
+    left : 10px;
+    top : 5px;
+}
+
+blockquote::after {
+    /* reset to make sure */
+    content : "";
+}
+
+@media screen and (orientation : portrait) {
+	.no_portrait {
+		display : none;
+	}
+}
+
+.quantity, .measurement {
+	/* font-style : italic; */
+    font-weight : bold;
+}
+
+.flashes {
+    border: solid 1px green;
+    font-size: 0.8em;
+}
+/*********************************/
+/* form styling */
+textarea, input[type="text"], 
+        input[type="submit"], 
+        input[type="number"],
+        input[type="search"],
+        input[type="file"],
+        input[type="password"]
+{
+	display : block;
+	margin-top : 0.5em;
+}
+
+input[type="search"] {
+	width : 100%;
+}
+
+
+input[type="file"] {
+    display : none;
+}
+
+#drop-area {
+    text-decoration : underline;
+    color : blue;
+    border : thick dashed black;
+    min-height : 200px;
+}
+
+#drop-area.highlight {
+    border-color : green;
+    background-color : rgba(0, 255, 0, 75);
+}
+/*********************************/
+/* definition list styling */
+dl {
+    border-top : solid 1px black; 
+    border-bottom : solid 1px black;
+}
+
+dt {
+	font-weight : bold;
+	text-align : left;
+    padding-top : 1em;
+    padding-bottom : 0.5em;
+}
+
+dd {
+    margin-left : 0;
+    /*margin-top : 1em;*/
+    padding-bottom : 1em;
+    /* border-bottom : solid 1px black; */
+}
+
+/* dt + dd {
+    border-bottom : solid 1px black;
+} */
+
+dd + dt {
+    border-top : solid 1px black;
+}
+
+/*********************************/
+/* general table options */
+tfoot {
+	display : table-footer-group;
+}
+table {
+	width : 100%;
+	border-collapse : collapse;
+	table-layout : fixed;
+	margin-top : 10px;
+	margin-top : 10px;
+}
+
+th, td {
+	border : solid thin gray;
+}
+
+/* recipe table */
+#recipes thead th:nth-child(1) {width : 30%;}
+#recipes thead th:nth-child(2) {width : 10%;}
+#recipes thead th:nth-child(3) {width : 45%;}
+#recipes thead th:nth-child(4) {width : 15%;}
+
+/* tags table */
+#tags thead th:nth-child(1) {width : 30%;}
+#tags thead th:nth-child(2) {width : 10%;}
+#tags thead th:nth-child(3) {width : 60%;}
+
+/*********************************/

@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+{% block title %}Edit Tag{% endblock %}
+
+
+{% block content %}
+	<h1>Edit '{{ tag.tag_name }}' tag</h1>
+	<form method="POST" enctype="multipart/form-data">
+		{{ form.csrf_token }}
+		{{ form.tag_name.label }} {{ form.tag_name }}
+        {{ form.tag_desc.label }} {{ form.tag_desc }}
+		<input type="submit" text="Submit" />
+	</form>
+	<a href="{{ url_for('get_tag', tag_id=tag.tag_id) }}">
+        Back to Tag Details
+    </a>
+{% endblock content %}

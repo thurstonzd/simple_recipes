@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+{% block title %}Tag Details{% endblock %}
+
+{% block content %}
+	<dl>
+		<dt>Tag ID</dt>
+		<dd>{{ tag.tag_id }}</dd>
+		
+		<dt>Tag Name</dt>
+		<dd>{{ tag.tag_name }}</dd>
+
+		<dt>Created By</dt>
+		<dd>
+			{% if tag.created_by %}{{tag.created_by }}
+			{% else %}N/A
+			{% endif %}
+		</dd>
+
+		<dt>Created At</dt>
+		<dd>
+			{% if tag.created_at %}{{tag.created_at }}
+			{% else %}N/A
+			{% endif %}
+		</dd>
+        
+        {% if tag.tag_desc %}
+            <dt>Tag Description</dt>
+            <dd>{{ tag.tag_desc | markdown }}</dd>
+        {% endif %}
+	</dl>
+    
+	{% if current_user.is_authenticated and current_user.id == tag.created_by %}
+		<a href="{{ url_for('edit_tag', tag_id=tag.tag_id) }}">Edit Tag</a>
+		<a href="{{ url_for('delete_tag', tag_id=tag.tag_id) }}">Delete Tag</a>
+	{% endif %}
+
+	<a href="/tags">Back to Tag List</a>
+{% endblock content %}

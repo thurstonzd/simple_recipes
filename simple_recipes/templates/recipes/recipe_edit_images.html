@@ -1,0 +1,48 @@
+{% extends "recipes/recipe_base.html" %}
+{% block title %}
+	{{ data['recipe_name'] }} - Edit Pictures
+{% endblock %}
+
+{% block images %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        
+        {% if form.image_deletions.choices %}
+            <h4>Images to Delete</h4>
+            {{ form.image_deletions }}
+        {% endif %}
+        
+        
+        <h4>New Images to Upload</h4>
+        <div id="drop-area">
+        {{ form.image_uploads }}
+        {{ form.image_uploads.label }}
+        </div>
+        
+        <div class="preview">
+            <p>No files currently selected for upload.</p>
+        </div>
+        
+        <h4>New Image Descriptions</h4>
+        {{ form.image_descriptions }}
+        
+        <input type="submit" value="Save" />
+    </form>
+    
+    <a href="{{ url_for('get_recipe', 
+		recipe_id=data['recipe_id']) }}">
+		Return to recipe
+	</a>
+    
+    <script src="{{ url_for('static', filename='drag_drop.js') }}"></script>
+{% endblock %}

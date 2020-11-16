@@ -1,0 +1,69 @@
+{% extends "recipes/recipe_base.html "%}
+{% block title %}New Recipe{% endblock %}
+
+{% block recipe %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+    {{ form.csrf_token }}
+    
+    {{ form.recipe_name.label }}
+    {{ form.recipe_name }}
+    
+    {{ form.recipe_desc.label }}
+    {{ form.recipe_desc }}
+    
+    {{ form.servings.label }}
+    {{ form.servings }}
+    
+    {{ form.total_time_minutes.label }}
+    {{ form.total_time_minutes }}
+{% endblock recipe %}
+
+{% block ingredients %}
+    {{ form.recipe_ingredients }}
+    
+    <button id="tokenify" type="button">
+        Tokenify
+    </button>
+    
+    <script>
+        let measurement_strings = {{ measurement_strings | tojson }};
+        
+        let btn = document.getElementById("tokenify");
+        btn.onclick = tokenify_input;
+        
+        function tokenify_input() {
+            var input = document.getElementById(
+                "{{ form.recipe_ingredients.id }}");
+            measurement_strings.forEach(s => {
+                var pattern = new RegExp("\\s(" + s + "\\.?)\\s", "gmi");
+                input.value = input.value.replace(pattern, ' \[$1\] ');
+            });
+        }
+    </script>
+{% endblock ingredients %}
+
+{% block instructions %}
+	{{ form.recipe_instructions }}
+{% endblock instructions %}
+
+{% block tags %}
+	{{ form.recipe_tags(size=20) }}
+    <input type="submit" value="Add Recipe" />
+    </form>
+{% endblock tags %}
+
+{% block images %}    
+    {#
+    <script src="{{ url_for('static', filename='drag_drop.js') }}"></script>
+    #}
+{% endblock %}

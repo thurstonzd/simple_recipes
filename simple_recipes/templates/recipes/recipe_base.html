@@ -1,0 +1,181 @@
+{% extends "_base.html" %}
+{% block title %}{{ data['recipe_name'] }}{% endblock %}
+
+
+{% block content %}
+	<h2>
+	{% if data %}
+		{{ data['recipe_name'] }}
+	{% else %}
+		New Recipe
+	{% endif %}
+	</h2>
+    
+	{% if data and not form %}
+		<a href="{{ url_for('convert_recipe', 
+			recipe_id = data['recipe_id']) }}">
+		Convert Recipe
+		</a>
+
+		{% if current_user.is_authenticated and current_user.id == data.created_by %}
+			<a class="no_portrait" href="{{ url_for('edit_recipe_basic', 
+						recipe_id=data['recipe_id']) }}">
+				Edit Basics
+			</a>
+
+			<a class="no_portrait" href="{{ url_for('delete_recipe', 
+					recipe_id=data['recipe_id']) }}">
+				Delete Recipe
+			</a>
+		{% endif %}
+	{% endif %}
+
+	{# ------------------------------------------------------------ #}
+	{% block recipe %}
+	
+	<dl>		
+		<dt>Servings</dt>
+		<dd>
+		{% if data['servings'] %}
+		{{ data['servings'] }}
+		{% else %}N/A
+		{% endif %}		
+		</dd>
+		
+		<dt>Total Time</dt>
+		<dd>
+		{% if data['total_time']  %}{{ data['total_time_string'] }}
+		{% else %}N/A
+		{% endif %}
+		</dd>
+
+		<dt>Created By</dt>
+		<dd>
+			{% if data['created_by'] %}
+				{{data['created_by']}}
+			{% else %}N/A
+			{% endif %}
+		</dd>
+	</dl>
+	
+	{% if data['recipe_desc'] %}
+	<div>
+	{{ data['recipe_desc'] | markdown }}
+	</div>
+	{% endif %}
+	
+	{% endblock recipe %}
+	{# ------------------------------------------------------------ #}
+	<h3 id="ingredients_header">Ingredients</h3>
+	<div id="ingredients_content">
+    {% block ingredients %}
+
+	{% if data['ingredients'] %}
+	<ul>
+		{% for ingredient in data['ingredients'] %}
+		<li>
+			<span class="quantity">{{ ingredient['quantity_string'] }}</span>
+			{% if ingredient['measurement_id'] %}
+                <span class="measurement">
+				{% if ingredient['quantity'] > 1 %}
+					{{ ingredient['measurement_plural'] }}
+				{% else %}
+					{{ ingredient['measurement_singular'] }}
+				{% endif %}
+                </span>
+			{% endif %}
+			
+			<span class="ingredient_name">
+			{{ ingredient['ingredient_name'] }}
+			</span>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	
+	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
+	<a class="no_portrait" href="{{ url_for('edit_recipe_ingredients', 
+				recipe_id=data['recipe_id']) }}">
+		Edit Ingredients
+	</a>
+	{% endif %}
+	{% endblock ingredients %}
+    </div>
+	{# ------------------------------------------------------------ #}
+	<h3 id="instructions_header">Instructions</h3>
+    <div id="instructions_content">
+	{% block instructions %}
+	
+	{% if data['instructions'] %}
+	<ol>
+	{% for instruction in data['instructions'] %}
+		<li>
+			{{ instruction['instruction'] | markdown }}
+		</li>
+	{% endfor %}
+	</ol>
+	{% endif %}
+	
+	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
+	<a class="no_portrait" href="{{ url_for('edit_recipe_instructions', 
+				recipe_id=data['recipe_id']) }}">
+		Edit Instructions
+	</a>
+	{% endif %}
+	{% endblock instructions %}
+    </div>
+	{# ------------------------------------------------------------ #}
+	<h3 id="tags_header">Tags</h3>
+    <div id="tags_content">
+	{% block tags %}
+
+	{% if data['tags'] %}
+	<ul>
+	{% for tag in data['tags'] %}
+		<li>
+			{{ tag['tag_name'] }}
+		</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	
+	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
+	<a href="{{ url_for('edit_recipe_tags', 
+				recipe_id=data['recipe_id']) }}">
+		Edit Tags
+	</a>
+	{% endif %}
+	{% endblock tags %}
+    </div>
+	{# ------------------------------------------------------------ #}
+    <h3 id="images_header">Images</h3>
+    <div id="images_content">
+    {% block images %}
+    
+    {% if files %}
+        {{ files }}
+    {% endif %}
+    
+    {% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
+	<a href="{{ url_for('edit_recipe_images', 
+				recipe_id=data['recipe_id']) }}">
+		Edit Images
+	</a>
+	{% endif %}
+    
+    <div id="images">
+    {% if data.images %}
+        {% for img in data.images %}
+            <img 
+                src="{{ url_for('get_image', 
+                    image_id=img.image_id, 
+                    file_name=img.image_file_name) }}" 
+                alt="{{ img.image_desc }}" />
+        {% endfor %}
+    {% endif %}
+    </div>
+    
+    {% endblock images %}
+    </div>
+    {# ------------------------------------------------------------ #}
+{% endblock content %}

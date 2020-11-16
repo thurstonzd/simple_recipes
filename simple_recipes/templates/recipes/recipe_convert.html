@@ -1,0 +1,33 @@
+{% extends "recipes/recipe_base.html" %}
+
+{% block recipe %}
+    <form 
+            method="GET" 
+            action="{{ url_for('get_recipe', 
+                recipe_id=data['recipe_id']) }}">
+            
+        <fieldset>
+            <legend>{{ form.unit_system.label }}</legend>
+            
+            {% for subfield in form.unit_system %}
+                <div>
+                    {{ subfield }}
+                    {{ subfield.label }}
+                </div>
+            {% endfor %}
+        </fieldset>
+        
+        {{ form.multiplier.label }}
+        {{ form.multiplier }}
+        
+        <input type="submit" value="Convert" />
+        
+    </form>
+    
+    <a href="{{ url_for('get_recipe', 
+		recipe_id=data['recipe_id']) }}">
+		Return to recipe
+	</a>
+
+    {{ super() }}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+    <h1>Log In</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+
+        {{ form.user_name.label }}  {{ form.user_name }}
+
+        <label>Password
+            {{ form.current_pw }}
+        </label>
+
+        <input type="submit" text="Log In" />
+    </form>
+{% endblock content %}

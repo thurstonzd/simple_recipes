@@ -1,0 +1,17 @@
+{% extends "recipes/recipe_base.html" %}
+{% block title %}
+	{{ data['recipe_name'] }} - Edit Tags
+{% endblock %}
+
+{% block tags %}
+	<form method="POST">
+		{{ form.csrf_token }}
+		{{ form.recipe_tags }}
+		<input type="submit" value="Save" />
+	</form>
+    
+	<a href="{{ url_for('get_recipe', 
+		recipe_id=data['recipe_id']) }}">
+		Return to recipe
+	</a>
+{% endblock tags %}

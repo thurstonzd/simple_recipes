@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+{% block title %}Recipe Search{% endblock %}
+
+
+{% block content %}
+	<form>
+        <fieldset>
+        <legend>{{ form.how.label }}</legend>
+        
+        {% for subfield in form.how %}
+            <div>
+                {{ subfield }}
+                {{ subfield.label }}
+            </div>
+        {% endfor %}
+        </fieldset>
+		{{ form.what }}
+		
+		<input type="submit" value="Search" />
+	</form>
+	
+	{% if recipes %}
+        {{ count }} recipes found
+        <table id="recipes" class="sortable">
+            <thead>
+                <tr>
+                    <th>Recipe Name</th>
+                    <th>Created By</th>
+                    <th>Tags</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for recipe in recipes %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('get_recipe', 
+                                    recipe_id=recipe['recipe_id'], 
+                                    subpath=recipe['recipe_name']) }}">
+                                    {{ recipe['recipe_name'] }}
+                            </a>
+                        </td>
+                        <td>
+                            {{recipe.created_by}}
+                        </td>
+                        <td>
+                            {{ recipe['tags'] }}
+                        </td>
+                        <td>
+                            {{ recipe.rank }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+	{% endif %}
+	
+{% endblock content %}

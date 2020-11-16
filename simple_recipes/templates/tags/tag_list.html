@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+{% block title %}Tag List{% endblock %}
+
+{% block content %}
+	<table id="tags">
+		<thead>
+			<th>Tag Name</th>
+			<th>Created By</th>
+			<th>Action</th>
+		</thead>
+
+		{% for tag in tags %}
+			<tr>
+			<td>{{ tag.tag_name }}</td>
+			<td>{{ tag.created_by }}</td>
+
+			<td>
+				<a href="{{ url_for('get_tag', tag_id=tag.tag_id) }}">View</a>
+
+				{% if current_user.is_authenticated and current_user.id == tag.created_by %}
+				<a href="{{ url_for('edit_tag', tag_id=tag.tag_id) }}">Edit</a>
+				<a href="{{ url_for('delete_tag', tag_id=tag.tag_id) }}">Delete</a>
+				{% endif %}
+
+			</td>
+			</tr>
+		{% endfor %}
+	
+			</tbody>
+	</table>
+	
+	{% if current_user.is_authenticated %}
+	<a href="{{ url_for('add_tag') }}">Add Tag</a>
+	{% endif %}
+	
+{% endblock content %}

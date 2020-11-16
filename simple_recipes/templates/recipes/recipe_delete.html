@@ -1,0 +1,11 @@
+{% extends "recipes/recipe_base.html" %}
+{% block title %}Delete Recipe {% endblock %}
+
+{% block content %}
+    <h1>Really delete this recipe?</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <input type="submit" value="Confirm Deletion" />
+    </form>
+    {{ super() }}
+{% endblock %}
