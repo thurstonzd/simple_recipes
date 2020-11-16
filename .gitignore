@@ -1,0 +1,16 @@
+__pycache__/
+
+# Environments
+venv/
+.venv/
+
+# test stuff
+test.py
+
+# DB stuff
+SQL/
+db_info.xlsx
+recipe.json
+
+# local development stuff
+_start.cmd
