@@ -3,6 +3,8 @@ __pycache__/
 # Environments
 venv/
 .venv/
+.env
+.flaskenv
 
 # test stuff
 test.py
@@ -11,6 +13,7 @@ test.py
 SQL/
 db_info.xlsx
 recipe.json
+_backup/
 
 # local development stuff
 _start.cmd
