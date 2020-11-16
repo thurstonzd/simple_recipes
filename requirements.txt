@@ -4,6 +4,7 @@ Flask==1.1.2
 Flask-Login==0.5.0
 Flask-Markdown==0.3
 Flask-WTF==0.14.3
+gunicorn==20.0.4
 itsdangerous==1.1.0
 Jinja2==2.11.2
 Markdown==3.3.3
