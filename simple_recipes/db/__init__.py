@@ -1,14 +1,22 @@
 from psycopg2 import sql, connect
 import psycopg2.extras
+import os
+
+from simple_recipes import app
 
 def get_connection():
-    return connect(
-        host='localhost',
-        port='5433',
-        dbname='recipes',
-        user='postgres',
-        password='admin'
-        )
+    if app.config['ENV'] == 'development':
+        return connect(
+            host='localhost',
+            port='5433',
+            dbname='recipes',
+            user='postgres',
+            password='admin'
+            )
+    else:
+        DATABASE_URL = os.environ['DATABASE_URL']
+        return connect(DATABASE_URL, sslmode='require')
+
         
 def get_cursor(cn):
     return cn.cursor(cursor_factory = psycopg2.extras.DictCursor)

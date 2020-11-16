@@ -1,1 +1,1 @@
-web: gunicorn simple_recipes:simple_recipes
+web: gunicorn simple_recipes:app
