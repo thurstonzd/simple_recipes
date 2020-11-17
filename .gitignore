@@ -8,15 +8,5 @@ venv/
 .env
 .flaskenv
 
-# test stuff
-test.py
-
-# DB stuff
-SQL/
-db_info.xlsx
-recipe.json
-_backup/
-
 # local development stuff
-_start.cmd
-.vscode/
+dev/
