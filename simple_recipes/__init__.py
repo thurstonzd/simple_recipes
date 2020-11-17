@@ -9,6 +9,10 @@ from pint import UnitRegistry
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = b'\x98R\xcd}\xe5\xa9\xe3\x110?\x82\x11\xf2\xa7\x17\x9c'
+
+if app.config['ENV'] == 'development':
+    app.config['DATABASE_URL'] = 'host=localhost port=5433 dbname=recipes user=postgres password=admin'
+
 csrf = CSRFProtect(app)
 Markdown(app)
 

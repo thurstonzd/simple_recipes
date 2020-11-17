@@ -5,18 +5,19 @@ import os
 from simple_recipes import app
 
 def get_connection():
+    # return connect(
+    #         host='localhost',
+    #         port='5433',
+    #         dbname='recipes',
+    #         user='postgres',
+    #         password='admin'
+    #         )
+    DATABASE_URL = None
     if app.config['ENV'] == 'development':
-        return connect(
-            host='localhost',
-            port='5433',
-            dbname='recipes',
-            user='postgres',
-            password='admin'
-            )
+        DATABASE_URL = app.config['DATABASE_URL']
     else:
         DATABASE_URL = os.environ['DATABASE_URL']
-        return connect(DATABASE_URL, sslmode='require')
-
+    return connect(DATABASE_URL)
         
 def get_cursor(cn):
     return cn.cursor(cursor_factory = psycopg2.extras.DictCursor)
