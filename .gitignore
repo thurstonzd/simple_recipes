@@ -21,3 +21,4 @@ _backup/
 
 # local development stuff
 _start.cmd
+.vscode/
