@@ -88,6 +88,7 @@ def add_recipe():
         return redirect(url_for(session['pages'].pop(0), 
             recipe_id=recipe_id), code=307)
     else:
+        form.created_by.data = flask_login.current_user.id
         return render_template('recipes/recipe_add.html', 
             form=form, measurement_strings=measurement_strings)
     

@@ -5,18 +5,13 @@ import os
 from simple_recipes import app
 
 def get_connection():
-    # return connect(
-    #         host='localhost',
-    #         port='5433',
-    #         dbname='recipes',
-    #         user='postgres',
-    #         password='admin'
-    #         )
     DATABASE_URL = None
     if app.config['ENV'] == 'development':
         DATABASE_URL = app.config['DATABASE_URL']
-    else:
+    elif 'DATABASE_URL' in os.environ:
         DATABASE_URL = os.environ['DATABASE_URL']
+    else:
+        DATABASE_URL = 'host=localhost port=5433 dbname=recipes user=postgres password=admin'
     return connect(DATABASE_URL)
         
 def get_cursor(cn):

@@ -104,3 +104,4 @@ class RecipeForm(FlaskForm):
             'placeholder': 'Place each description on a separate line.'})
     image_deletions = MultiCheckboxField('Images to delete', 
         [validators.optional()], coerce=int)
+    created_by = HiddenField("Created By")

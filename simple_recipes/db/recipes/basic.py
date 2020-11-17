@@ -9,6 +9,7 @@ from pint import UnitRegistry
 
 from simple_recipes.db import get_connection, get_cursor
 from simple_recipes.db.recipes.extra import get_measurements
+from simple_recipes.db.users import get_user_by_username
 from simple_recipes.unit_convert import convert_to_other_system
 from simple_recipes.web_io import get_time_format_string
 
@@ -145,10 +146,15 @@ def update_recipe_basic(new_data):
         if m: total_time = timedelta(minutes=m)
         else: total_time = m
         new_data['total_time'] = total_time
+
+    # if necessary, get User ID from User Name
+    if 'created_by' in new_data:
+            user = get_user_by_username(new_data['created_by'])
+            if user: new_data['created_by'] = user['user_id']
         
     # keys that will go into UPDATE statement
     valid_keys = ['recipe_id', 'recipe_name', 
-        'servings', 'total_time', 'recipe_desc']
+        'servings', 'total_time', 'recipe_desc', 'created_by']
     
     # remove invalid keys
     new_data = {k: new_data[k] for k in new_data if k in valid_keys}
