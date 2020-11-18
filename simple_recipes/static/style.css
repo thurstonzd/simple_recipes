@@ -161,6 +161,7 @@ th, td {
 /* tags table */
 #tags thead th:nth-child(1) {width : 30%;}
 #tags thead th:nth-child(2) {width : 10%;}
+#tags td:nth-child(2) {text-align: center;}
 #tags thead th:nth-child(3) {width : 60%;}
 
 /*********************************/
