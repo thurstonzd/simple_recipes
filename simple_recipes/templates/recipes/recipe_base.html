@@ -77,17 +77,13 @@
 			<span class="quantity">{{ ingredient['quantity_string'] }}</span>
 			{% if ingredient['measurement_id'] %}
                 <span class="measurement">
-				{% if ingredient['quantity'] > 1 %}
-					{{ ingredient['measurement_plural'] }}
-				{% else %}
-					{{ ingredient['measurement_singular'] }}
-				{% endif %}
-                </span>
+					{% if ingredient['quantity'] > 1 %}{{ ingredient['measurement_plural'] }}
+					{% else %}{{ ingredient['measurement_singular'] }}
+					{% endif %}
+				</span>
 			{% endif %}
 			
-			<span class="ingredient_name">
-			{{ ingredient['ingredient_name'] }}
-			</span>
+			<span class="ingredient_name">{{ ingredient['ingredient_name'] }}</span>
 		</li>
 		{% endfor %}
 	</ul>
