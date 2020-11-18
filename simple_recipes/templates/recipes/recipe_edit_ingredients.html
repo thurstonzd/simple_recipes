@@ -7,12 +7,10 @@
 	<form method="POST">
 		{{ form.csrf_token }}
         
-        <button id="tokenify" type="button">
-            Tokenify
-        </button>
 		{{ form.recipe_ingredients }}
         
-		<input type="submit" value="Save" />
+		<button id="tokenify" type="button">Tokenify</button>
+        <input type="submit" value="Save" />
 	</form>
 	<a href="{{ url_for('get_recipe', 
 		recipe_id=data['recipe_id']) }}">
