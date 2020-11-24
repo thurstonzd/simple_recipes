@@ -114,6 +114,7 @@ def edit_recipe_basic(recipe_id):
         return redirect(url_for('get_recipe', recipe_id=recipe_id))
     else:
         # prepopulate fields
+        form.created_by.data = flask_login.current_user.id
         if data['recipe_desc']: 
             form.recipe_desc.process_data(data['recipe_desc'])
         if data['servings']:

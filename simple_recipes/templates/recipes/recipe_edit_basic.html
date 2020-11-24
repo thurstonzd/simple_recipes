@@ -6,6 +6,7 @@
 {% block recipe %}
 	<form method="POST">
 		{{ form.csrf_token }}
+		{{ form.created_by }}
 		
 		{{ form.recipe_name.label }}
 		{{ form.recipe_name(value=data['recipe_name']) }}
