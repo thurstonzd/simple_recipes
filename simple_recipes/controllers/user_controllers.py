@@ -48,8 +48,6 @@ def login():
 
         try:
             if is_user_password_valid(user_name, user_pw):
-                user_data = get_user(user_name=user_name)
-                
                 user = User()
                 user.id = user_name
                 flask_login.login_user(user)
@@ -59,7 +57,6 @@ def login():
                 flash("Incorrect username or password")
         except PermissionError as exc:
             flash(exc)
-            return render_template('users/login.html', form=form)
 
     return render_template('users/login.html', form=form)
 
@@ -72,6 +69,12 @@ def logout():
 @app.route('/account/', methods=['GET', 'POST'])
 @flask_login.login_required
 def account():
+    user_name = flask_login.current_user.id
+    user_data = get_user(user_name=user_name)
+    if user_data['user_status'] == RESET:
+        flash(  "Your account has been reset. "
+                "You might want to go ahead and change your password.")
+        change_user_status(user_name=user_name)
     return render_template('users/account.html')
         
 @app.route('/account/change_password/', methods=['GET', 'POST'])

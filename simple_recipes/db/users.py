@@ -11,6 +11,9 @@ RESET = 2
 # how many unsuccessful attempts are allowed before locking the account.
 ALLOWED_ATTEMPTS = 3
 
+class AccountResetWarning(Warning):
+    pass
+
 def check_user_criteria(**user_criteria):
     '''Checks for valid user_criteria
     Either user_id or user_name (just one), and nothing else.
@@ -119,9 +122,6 @@ def is_user_password_valid(user_name, password):
 
     success = (h1 == h2)
     register_login_attempt(success, user_name=user_name)
-    if success and user_dict['user_status'] == RESET:
-        raise Warning(  "User account has been reset. "
-                        "You might want to go ahead and change your password.")
     return success
 
 def add_user(user_name, password_hash, salt):
