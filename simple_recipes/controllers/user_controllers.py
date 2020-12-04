@@ -15,7 +15,7 @@ class User(flask_login.UserMixin):
 
 @login_manager.user_loader
 def user_loader(user_name):
-    d = get_user_by_username(user_name)
+    d = get_user(user_name=user_name)
     if not d: return
 
     user = User()
@@ -28,7 +28,7 @@ def request_loader(request):
     user_name = request.form.get('user_name')
     entered_password = request.form.get('user_pw')
 
-    if user_name and entered_password and get_user_by_username(user_name):
+    if user_name and entered_password and get_user(user_name=user_name):
         user = User()
         user.id = user_name
         if is_user_password_valid(user_name, entered_password):
@@ -46,13 +46,20 @@ def login():
         user_name = form.user_name.data
         user_pw = form.current_pw.data
 
-        if is_user_password_valid(user_name, user_pw):
-            user = User()
-            user.id = user_name
-            flask_login.login_user(user)
-            return redirect(url_for('account'))
-        else:
-            flash("Incorrect username or password")
+        try:
+            if is_user_password_valid(user_name, user_pw):
+                user_data = get_user(user_name=user_name)
+                
+                user = User()
+                user.id = user_name
+                flask_login.login_user(user)
+
+                return redirect(url_for('account'))
+            else:
+                flash("Incorrect username or password")
+        except PermissionError as exc:
+            flash(exc)
+            return render_template('users/login.html', form=form)
 
     return render_template('users/login.html', form=form)
 

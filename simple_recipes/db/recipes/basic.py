@@ -9,7 +9,7 @@ from pint import UnitRegistry
 
 from simple_recipes.db import get_connection, get_cursor
 from simple_recipes.db.recipes.extra import get_measurements
-from simple_recipes.db.users import get_user_by_username
+from simple_recipes.db.users import get_user
 from simple_recipes.unit_convert import convert_to_other_system
 from simple_recipes.web_io import get_time_format_string
 
@@ -149,7 +149,7 @@ def update_recipe_basic(new_data):
 
     # if necessary, get User ID from User Name
     if 'created_by' in new_data:
-            user = get_user_by_username(new_data['created_by'])
+            user = get_user(new_data['created_by'])
             if user: new_data['created_by'] = user['user_id']
         
     # keys that will go into UPDATE statement
