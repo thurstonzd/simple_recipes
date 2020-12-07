@@ -38,3 +38,7 @@ def handle_not_found(e):
 def handle_forbidden(e):
     return render_template('errors/forbidden.html'), \
         werkzeug.exceptions.Forbidden.code
+
+@app.route('/robots.txt')
+def robot_txt():
+    return Response('''User-agent: *\nDisallow: /''', mimetype='text/plain')
