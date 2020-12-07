@@ -1,5 +1,6 @@
 from fractions import Fraction
 import re
+import io
 
 import werkzeug
 from werkzeug.utils import secure_filename
@@ -7,6 +8,7 @@ from werkzeug.datastructures import MultiDict
 from pint import UnitRegistry
 from flask import render_template, redirect, url_for, request, session, Response, abort, flash
 import flask_login
+from PIL import Image
 
 from simple_recipes import app, login_manager
 from simple_recipes.db import recipes as db
@@ -292,7 +294,20 @@ def get_image(image_id, file_name):
     
     # return Response(img['image_bytes'], mimetype=img['file_type'])
     return Response(generate(), mimetype=img['file_type'])
-    
+
+@app.route('/thumbnails/<int:image_id>/<file_name>')
+def get_image_thumbnail(image_id, file_name):
+    img_data = db.get_recipe_image(image_id)
+    img_bytes = img_data['image_bytes']
+    img_file_type = img_data['file_type']
+
+    img = Image.open(io.BytesIO(img_bytes))
+    img.thumbnail((90,90))
+
+    img_bytes = io.BytesIO()
+    img.save(img_bytes, format=img.format)
+    return Response(img_bytes.getvalue(), mimetype=img_file_type)
+
 @app.route('/recipes/<int:recipe_id>/edit/images/', methods=['GET', 'POST'])
 @flask_login.login_required
 def edit_recipe_images(recipe_id):
