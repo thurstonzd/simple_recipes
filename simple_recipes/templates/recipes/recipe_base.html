@@ -161,13 +161,23 @@
     
     <div id="images">
     {% if data.images %}
+		<ul>
         {% for img in data.images %}
+			<li>
+				<a href="{{ url_for('get_image',
+					image_id=img.image_id,
+					file_name=img.image_file_name) }}" data-lightbox="recipe">{{img.image_desc}}</a>
+			</li>
+			{#
             <img 
                 src="{{ url_for('get_image', 
                     image_id=img.image_id, 
                     file_name=img.image_file_name) }}" 
-                alt="{{ img.image_desc }}" />
+                alt="{{ img.image_desc }}" 
+				data-lightbox="{{ img.image_desc }}" />
+			#}
         {% endfor %}
+		</ul>
     {% endif %}
     </div>
     

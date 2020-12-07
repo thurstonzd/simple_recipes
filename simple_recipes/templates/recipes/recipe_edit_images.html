@@ -4,22 +4,12 @@
 {% endblock %}
 
 {% block images %}
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
     <form method="POST" enctype="multipart/form-data">
         {{ form.csrf_token }}
         
         {% if form.image_deletions.choices %}
             <h4>Images to Delete</h4>
-            {{ form.image_deletions }}
+            {{ form.image_deletions | safe }}
         {% endif %}
         
         

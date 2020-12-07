@@ -44,3 +44,7 @@ def robot_txt():
     return Response(    "User-agent: *\n"
                         "Disallow: /", 
                         mimetype='text/plain')
+
+@app.route('/images/<path:file_name>')
+def lightbox_image(file_name):
+    return app.send_static_file(file_name)
