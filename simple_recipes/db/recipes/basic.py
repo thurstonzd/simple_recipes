@@ -149,7 +149,7 @@ def update_recipe_basic(new_data):
 
     # if necessary, get User ID from User Name
     if 'created_by' in new_data:
-            user = get_user(new_data['created_by'])
+            user = get_user(user_name=new_data['created_by'])
             if user: new_data['created_by'] = user['user_id']
         
     # keys that will go into UPDATE statement
