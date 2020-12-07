@@ -41,4 +41,6 @@ def handle_forbidden(e):
 
 @app.route('/robots.txt')
 def robot_txt():
-    return Response('''User-agent: *\nDisallow: /''', mimetype='text/plain')
+    return Response(    "User-agent: *\n"
+                        "Disallow: /", 
+                        mimetype='text/plain')
