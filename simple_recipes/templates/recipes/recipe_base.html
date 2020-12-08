@@ -91,7 +91,8 @@
 	
 	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
 	<a class="no_portrait" href="{{ url_for('edit_recipe_ingredients', 
-				recipe_id=data['recipe_id']) }}">
+				recipe_id=data['recipe_id'],
+				_anchor="ingredients_content") }}">
 		Edit Ingredients
 	</a>
 	{% endif %}
@@ -114,7 +115,8 @@
 	
 	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
 	<a class="no_portrait" href="{{ url_for('edit_recipe_instructions', 
-				recipe_id=data['recipe_id']) }}">
+				recipe_id=data['recipe_id'],
+				_anchor="instructions_content") }}">
 		Edit Instructions
 	</a>
 	{% endif %}
@@ -137,7 +139,8 @@
 	
 	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
 	<a href="{{ url_for('edit_recipe_tags', 
-				recipe_id=data['recipe_id']) }}">
+				recipe_id=data['recipe_id'],
+				_anchor="tags_content") }}">
 		Edit Tags
 	</a>
 	{% endif %}
@@ -174,7 +177,8 @@
 
 	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
 	<a href="{{ url_for('edit_recipe_images', 
-				recipe_id=data['recipe_id']) }}">
+				recipe_id=data['recipe_id'],
+				_anchor="images_content") }}">
 		Edit Images
 	</a>
 	{% endif %}
