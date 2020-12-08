@@ -35,17 +35,20 @@ def main():
         elif option == Options.LOCK_USER:
             user_name = input("Enter User Name: ")
             lock_user(user_name=user_name)
+            print(f"\nAccount '{user_name}' locked")
         #############################################################
         elif option == Options.UNLOCK_USER:
-            user_name = input("Enter User Name")
-            unlock_user(user_name)
+            user_name = input("Enter User Name: ")
+            unlock_user(user_name=user_name)
+            print(f"\nAccount for '{user_name}' unlocked.\n")
         #############################################################
         elif option == Options.ADD_USER:
-            passuser_name = input("Enter new user name: ")
+            user_name = input("Enter new user name: ")
             pw = click.prompt("Enter password: ", hide_input=True)
             salt = os.urandom(64)
             hashed = scrypt.hash(pw, salt)
             add_user(user_name, hashed, salt)
+            print(f"\nAccount created for '{user_name}'\n")
         #############################################################
         elif option == Options.CHANGE_USER_PASSWORD:
             user_name = input("Enter new user name: ")
@@ -53,6 +56,7 @@ def main():
             salt = os.urandom(64)
             hashed = scrypt.hash(pw, salt)
             update_user_password(user_name, hashed, salt)
+            print(f"\nPassword change for User ID '{user_name}'")
         #############################################################
 
         option = int(input("Enter option number: "))
