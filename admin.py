@@ -30,7 +30,16 @@ def main():
         if option == Options.SHOW_USER_INFO:
             user_name = input("Enter User Name: ")
             user_data = get_user(user_name=user_name)
+            user_status = user_data['user_status']
+
+            print()
             print(f"User Name: {user_data['user_name']}")
+
+            if user_status == LOCKED: print(f"Account Status: Locked")
+            elif user_status == RESET: print("Account Status: Reset")
+            else: print("Account Status: Default")
+            print()
+            
         #############################################################
         elif option == Options.LOCK_USER:
             user_name = input("Enter User Name: ")
