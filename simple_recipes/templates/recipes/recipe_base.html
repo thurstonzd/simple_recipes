@@ -10,6 +10,14 @@
 		New Recipe
 	{% endif %}
 	</h2>
+
+	{% if data and not form %}
+		<a 
+				href="{{ url_for('qr_image', url=request.url) }}" 
+				data-lightbox="share">
+			Share Recipe
+		</a>
+	{% endif %}
     
 	{% if data and not form %}
 		<a href="{{ url_for('convert_recipe', 
@@ -158,9 +166,11 @@
     <div id="images">
     {% if data.images %}
         {% for img in data.images %}
-				<a href="{{ url_for('get_image',
-					image_id=img.image_id,
-					file_name=img.image_file_name) }}" data-lightbox="recipe">
+				<a 
+					href="{{ url_for('get_image',
+						image_id=img.image_id,
+						file_name=img.image_file_name) }}" 
+					data-lightbox="recipe">
 				
 					<img
 						src="{{ url_for('get_image_thumbnail',
