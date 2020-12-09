@@ -13,7 +13,7 @@
 
 	{% if data and not form %}
 		<a 
-				href="{{ url_for('qr_image', url=request.url) }}" 
+				href="{{ url_for('share_recipe', recipe_id=data.recipe_id) }}" 
 				data-lightbox="share">
 			Share Recipe
 		</a>

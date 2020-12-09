@@ -2,7 +2,6 @@ import io
 
 from flask import Flask
 import werkzeug
-import pyqrcode
 
 from flask_wtf.csrf import CSRFProtect
 from flaskext.markdown import Markdown
@@ -51,10 +50,3 @@ def robot_txt():
 @app.route('/images/<path:file_name>')
 def lightbox_image(file_name):
     return app.send_static_file(file_name)
-
-@app.route('/qr/<path:url>')
-def qr_image(url):
-    qr = pyqrcode.create(url)
-    buffer = io.BytesIO()
-    qr.svg(buffer, scale=4)
-    return Response(buffer.getvalue(), mimetype='image/svg+xml')

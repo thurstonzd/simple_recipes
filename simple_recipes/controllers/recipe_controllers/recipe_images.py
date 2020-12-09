@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from flask import render_template, redirect, url_for, request, session, Response, abort, flash
 import flask_login
 from PIL import Image
+import pyqrcode
 
 from simple_recipes import app, login_manager
 from simple_recipes.db import recipes as db
@@ -86,3 +87,11 @@ def edit_recipe_images(recipe_id):
     else:
         return render_template('recipes/recipe_edit_images.html', 
             form=form, data=data)
+
+@app.route('/share/recipe/<int:recipe_id>/')
+def share_recipe(recipe_id):
+    url = url_for('get_recipe', recipe_id=recipe_id)
+    qr = pyqrcode.create(url)
+    buffer = io.BytesIO()
+    qr.svg(buffer, scale=4)
+    return Response(buffer.getvalue(), mimetype='image/svg+xml')
