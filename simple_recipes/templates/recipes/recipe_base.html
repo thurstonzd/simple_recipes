@@ -13,7 +13,7 @@
 
 	{% if data and not form %}
 		<a 
-				href="{{ url_for('share_recipe', recipe_id=data.recipe_id) }}" 
+				href="{{ url_for('share_recipe', recipe_id=data.recipe_id, _external=True) }}" 
 				data-lightbox="share">
 			Share Recipe
 		</a>
