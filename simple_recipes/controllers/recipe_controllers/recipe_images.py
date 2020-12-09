@@ -90,7 +90,7 @@ def edit_recipe_images(recipe_id):
 
 @app.route('/share/recipe/<int:recipe_id>/')
 def share_recipe(recipe_id):
-    url = url_for('get_recipe', recipe_id=recipe_id)
+    url = url_for('get_recipe', recipe_id=recipe_id, _external=True)
     qr = pyqrcode.create(url)
     buffer = io.BytesIO()
     qr.svg(buffer, scale=4)
