@@ -5,6 +5,10 @@ body {
 	font-family : Verdana, sans-serif;
     clear : left;
 }
+
+a + a {
+    margin-left: 0.25em;
+}
 	
 h2 {
 	font-size : 1.75em;
