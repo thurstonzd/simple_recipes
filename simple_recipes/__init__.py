@@ -16,7 +16,7 @@ if app.config['ENV'] == 'development':
     app.config['DATABASE_URL'] = 'host=localhost port=5433 dbname=recipes user=postgres password=admin'
 
 csrf = CSRFProtect(app)
-Markdown(app)
+Markdown(app, extensions=['tables', 'def_list'])
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
