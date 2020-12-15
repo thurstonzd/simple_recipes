@@ -77,6 +77,34 @@ blockquote::after {
     border: solid 1px green;
     font-size: 0.8em;
 }
+
+/* tag list */
+#tags_content ul {
+    list-style:  none;
+    padding : 0;
+}
+
+#tags_content li {
+    display : inline-block;
+    padding : 0.25em;
+    border : solid black 0.25px;
+    margin : 0.25em;
+}
+
+/* #tags_content li * {
+    border : solid black 0.25px;
+    padding : 0.25em;
+    margin : 0.25em;
+} */
+
+/* #tags_content span, #tags_content a {
+    border : solid black 1px;
+    padding : 0.25em;
+} */
+
+/* #tags_content li + li::before {
+    content : "\00b7";
+} */
 /*********************************/
 /* form styling */
 textarea, input[type="text"], 
