@@ -69,7 +69,6 @@ blockquote::after {
 }
 
 .quantity, .measurement {
-	/* font-style : italic; */
     font-weight : bold;
 }
 
@@ -90,21 +89,6 @@ blockquote::after {
     border : solid black 0.25px;
     margin : 0.25em;
 }
-
-/* #tags_content li * {
-    border : solid black 0.25px;
-    padding : 0.25em;
-    margin : 0.25em;
-} */
-
-/* #tags_content span, #tags_content a {
-    border : solid black 1px;
-    padding : 0.25em;
-} */
-
-/* #tags_content li + li::before {
-    content : "\00b7";
-} */
 /*********************************/
 /* form styling */
 textarea, input[type="text"], 
@@ -154,14 +138,8 @@ dt {
 
 dd {
     margin-left : 0;
-    /*margin-top : 1em;*/
     padding-bottom : 1em;
-    /* border-bottom : solid 1px black; */
 }
-
-/* dt + dd {
-    border-bottom : solid 1px black;
-} */
 
 dd + dt {
     border-top : solid 1px black;
