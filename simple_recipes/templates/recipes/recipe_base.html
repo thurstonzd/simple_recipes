@@ -37,9 +37,11 @@
 			</a>
 		{% endif %}
 	{% endif %}
+	
+	{# ------------------------------------------------------------ #}
+	{% block recipe %}
 
-	{% block tags %}
-		<div id="tags_content">
+	<div id="tags_content">
 		<ul>
 
 		{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
@@ -61,11 +63,7 @@
 		{% endif %}
 
 		</ul>
-		</div>
-		{% endblock tags %}
-	
-	{# ------------------------------------------------------------ #}
-	{% block recipe %}
+	</div>
 	
 	<dl>
 		<dt>Servings</dt>

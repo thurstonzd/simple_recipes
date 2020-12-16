@@ -1,13 +1,8 @@
 {% extends "recipes/recipe_base.html" %}
 {% block title %}New Recipe{% endblock %}
 
-{% block tags %}
-    <form method="POST">
-    {{ form.recipe_tags.label }}
-	{{ form.recipe_tags(size=20) }}
-{% endblock tags %}
-
 {% block recipe %}
+    <form method="POST">
     {{ form.csrf_token }}
     {{ form.created_by }}
     
@@ -22,6 +17,9 @@
     
     {{ form.total_time_minutes.label }}
     {{ form.total_time_minutes }}
+
+    {{ form.recipe_tags.label }}
+	{{ form.recipe_tags(size=20) }}
 {% endblock recipe %}
 
 {% block ingredients %}

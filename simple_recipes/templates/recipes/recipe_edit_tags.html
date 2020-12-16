@@ -3,7 +3,7 @@
 	{{ data['recipe_name'] }} - Edit Tags
 {% endblock %}
 
-{% block tags %}
+{% block recipe %}
 	<form method="POST">
 		{{ form.csrf_token }}
 		{{ form.recipe_tags }}
@@ -14,4 +14,4 @@
 		recipe_id=data['recipe_id']) }}">
 		Return to recipe
 	</a>
-{% endblock tags %}
+{% endblock recipe %}
