@@ -49,4 +49,4 @@ def robot_txt():
 
 @app.route('/images/<path:file_name>')
 def lightbox_image(file_name):
-    return app.send_static_file(file_name)
+    return app.send_static_file(f'lightbox/{file_name}')
