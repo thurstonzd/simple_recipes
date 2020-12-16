@@ -1,18 +1,13 @@
 {% extends "recipes/recipe_base.html" %}
 {% block title %}New Recipe{% endblock %}
 
-{% block recipe %}
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
+{% block tags %}
     <form method="POST">
+    {{ form.recipe_tags.label }}
+	{{ form.recipe_tags(size=20) }}
+{% endblock tags %}
+
+{% block recipe %}
     {{ form.csrf_token }}
     {{ form.created_by }}
     
@@ -55,13 +50,9 @@
 
 {% block instructions %}
 	{{ form.recipe_instructions }}
-{% endblock instructions %}
-
-{% block tags %}
-	{{ form.recipe_tags(size=20) }}
     <input type="submit" value="Add Recipe" />
     </form>
-{% endblock tags %}
+{% endblock instructions %}
 
 {% block images %}    
     {#

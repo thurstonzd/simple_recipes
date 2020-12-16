@@ -96,7 +96,8 @@ textarea, input[type="text"],
         input[type="number"],
         input[type="search"],
         input[type="file"],
-        input[type="password"]
+        input[type="password"],
+        select
 {
 	display : block;
 	margin-top : 0.5em;
