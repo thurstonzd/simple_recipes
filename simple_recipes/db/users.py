@@ -11,9 +11,6 @@ RESET = 2
 # how many unsuccessful attempts are allowed before locking the account.
 ALLOWED_ATTEMPTS = 3
 
-class AccountResetWarning(Warning):
-    pass
-
 def check_user_criteria(**user_criteria):
     '''Checks for valid user_criteria
     Either user_id or user_name (just one), and nothing else.
@@ -105,15 +102,16 @@ def register_login_attempt(is_successful, **user_criteria):
         with get_cursor(cn) as cur:
             cur.execute(statement, user_criteria)
 
-def is_user_password_valid(user_name, password):
-    user_dict = get_user(user_name=user_name)
+def is_user_password_valid(password, **user_criteria):
+    user_dict = get_user(**user_criteria)
     if not user_dict: 
-        raise PermissionError(f"User '{user_name}' not found")
+        vals = list(user_criteria.items())[0]
+        raise PermissionError("{} '{}' not found".format(*vals))
 
     if user_dict['user_status'] == LOCKED:
         raise PermissionError("This account is locked")
     if user_dict['unsuccessful_logins'] >= ALLOWED_ATTEMPTS:
-        lock_user(user_name=user_name)
+        lock_user(**criteria)
         raise PermissionError("This account is locked")
 
     salt = bytes(user_dict['password_salt'])
@@ -121,7 +119,7 @@ def is_user_password_valid(user_name, password):
     h2 = scrypt.hash(password, salt)
 
     success = (h1 == h2)
-    register_login_attempt(success, user_name=user_name)
+    register_login_attempt(success, **user_criteria)
     return success
 
 def add_user(user_name, password_hash, salt):
@@ -135,31 +133,35 @@ def add_user(user_name, password_hash, salt):
             cur.execute(statement, (user_name, password_hash, salt))
             return cur.fetchone()['user_id']
 
-def update_user_name(old_user_name, new_user_name):
+def update_user_name(new_user_name, **user_criteria):
     statement = sql.SQL(    "UPDATE users "
                             "SET user_name = %(new)s "
-                            "WHERE user_name = %(old)s;")
+                            "WHERE {where};")
+
+    where_clause = check_user_criteria(**user_criteria)
+    data = user_criteria
+    data['new'] = new_user_name
+    statement = statement.format(where=where_clause)
 
     with get_connection() as cn:
         with get_cursor(cn) as cur:
-            cur.execute(statement, {
-                'old' : old_user_name, 
-                'new': new_user_name
-                })
+            cur.execute(statement, data)
 
-def update_user_password(old_user_name, password_hash, salt=None):
-    if not salt: salt = urandom(16)
+def update_user_password(password_hash, salt=None, **user_criteria):
+    if not salt: salt = urandom(64)
 
+    where_clause = check_user_criteria(**user_criteria)
+    data = user_criteria
+    data['password'] = password_hash
+    data['salt'] = salt
     statement = sql.SQL(    "UPDATE users "
                             "SET "
                                 "password_hash=%(password)s, "
                                 "password_salt=%(salt)s "
-                            "WHERE user_name = %(old)s")
+                            "WHERE {where}")
+
+    statement = statement.format(where=where_clause)
 
     with get_connection() as cn:
         with get_cursor(cn) as cur:
-            cur.execute(statement, {
-                'old': old_user_name,
-                'password': password_hash,
-                'salt': salt
-            })
+            cur.execute(statement, data)

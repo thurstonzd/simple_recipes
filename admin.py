@@ -60,11 +60,11 @@ def main():
             print(f"\nAccount created for '{user_name}'\n")
         #############################################################
         elif option == Options.CHANGE_USER_PASSWORD:
-            user_name = input("Enter new user name: ")
-            pw = click.prompt("Enter password: ", hide_input=True)
+            user_name = input("Enter user name: ")
+            pw = click.prompt("Enter new password: ", hide_input=True)
             salt = os.urandom(64)
             hashed = scrypt.hash(pw, salt)
-            update_user_password(user_name, hashed, salt)
+            update_user_password(hashed, salt, user_name=user_name)
             print(f"\nPassword change for User ID '{user_name}'")
         #############################################################
 

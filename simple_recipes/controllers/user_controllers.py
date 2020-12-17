@@ -31,7 +31,7 @@ def request_loader(request):
     if user_name and entered_password and get_user(user_name=user_name):
         user = User()
         user.id = user_name
-        if is_user_password_valid(user_name, entered_password):
+        if is_user_password_valid(entered_password, user_name=user_name):
             user.is_authenticated = True
         else: flash("Incorrect Password")
 
@@ -47,7 +47,7 @@ def login():
         user_pw = form.current_pw.data
 
         try:
-            if is_user_password_valid(user_name, user_pw):
+            if is_user_password_valid(user_pw, user_name=user_name):
                 user = User()
                 user.id = user_name
                 flask_login.login_user(user)
@@ -94,7 +94,7 @@ def change_password():
         if is_user_password_valid(user_name, current_pw):
             salt = os.urandom(64)
             hashed = scrypt.hash(form.new_pw.data, salt)
-            update_user_password(user_name, hashed, salt)
+            update_user_password(hashed, salt, user_name=user_name)
             flash("Password successfully changed")
             return redirect(url_for('account'))
 
