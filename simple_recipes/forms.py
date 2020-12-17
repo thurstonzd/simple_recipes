@@ -88,7 +88,7 @@ class RecipeForm(FlaskForm):
             'placeholder': ingredients_placeholder})
     recipe_instructions = TextAreaField('Directions',
         render_kw={
-            'rows': 10, 'cols': 40, 'wrap': 'off',
+            'rows': 10, 'cols': 40, 'wrap': 'soft',
             'placeholder' : instructions_placeholder})
     recipe_tags = SelectMultipleField('Tags', coerce=int,
         render_kw={'size': 20})

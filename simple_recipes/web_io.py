@@ -78,7 +78,7 @@ def format_instructions(data):
     '''
     if 'instructions' in data: data = data['instructions']
 
-    return '\n'.join(['{step_number}. {instruction}'.format(**instr)
+    return '\n\n'.join(['{step_number}. {instruction}'.format(**instr)
                       for instr in data])
     
 def format_ingredients(data):
