@@ -12,7 +12,3 @@ venv/
 # local development stuff
 dev/
 .vscode/
-
-# key
-fullchain.pem
-privkey.pem
