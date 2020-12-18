@@ -50,3 +50,7 @@ def robot_txt():
 @app.route('/images/<path:file_name>')
 def lightbox_image(file_name):
     return app.send_static_file(f'lightbox/{file_name}')
+
+@app.route('/.well-known/acme-challenge/5ttsf7bbGr7RnHR6O_GRbWvviy05Qbdz-Jxu6yY14Fk')
+def certbot():
+    return "5ttsf7bbGr7RnHR6O_GRbWvviy05Qbdz-Jxu6yY14Fk.7EZGRXS31yJ1PvZD43gs_W_FTi3NBYl90OQEt_IFD-M"
