@@ -6,6 +6,7 @@ import werkzeug
 from flask_wtf.csrf import CSRFProtect
 from flaskext.markdown import Markdown
 import flask_login
+from flask_talisman import Talisman
 
 from pint import UnitRegistry
 
@@ -18,8 +19,10 @@ if app.config['ENV'] == 'development':
 csrf = CSRFProtect(app)
 Markdown(app, extensions=['tables', 'def_list'])
 
+# plugin registrations
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+Talisman(app)
 
 ureg = UnitRegistry()
 
