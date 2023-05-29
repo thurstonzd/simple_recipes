@@ -53,3 +53,42 @@ def get_table_counts():
         with cn.cursor() as cur:
             cur.execute(statement)
             return cur.fetchall()
+        
+def get_measurement_units(**criteria):
+    statement = "SELECT units_json();"
+    with get_connection() as cn:
+        with get_cursor(cn) as cur:
+            cur.execute(statement)
+            data = cur.fetchone()[0]
+
+            '''
+            # search data based on provided criteria
+            if 'unit_id' in criteria:
+                criterion = criteria['unit_id']
+                data = [u for u in data if u['unit_id'] == criterion]
+            elif 'unit_name' in criteria:
+                criterion = criteria['unit_name']
+                data = [u for u in data if criterion in (
+                    u['unit_plural'],
+                    u['unit_singular'],
+                    u['unit_abbr'])]
+            elif 'unit_system' in criteria or 'unit_category' in criteria:
+                cat = criteria.get('unit_category')
+                sys = criteria.get('unit_system')
+                data = [u for u in data if
+                        (u['unit_category'] == cat or not cat) and
+                        (u['unit_system'] == sys or not sys)]
+
+            if 'only_include_convertibles' in criteria:
+                data = [u for u in data if u['include_in_conversions']]
+            '''
+
+            return data
+        
+def get_unit_strings(**criteria):
+    units = get_measurement_units(**criteria)
+    strings = []
+
+    strings.extend([u['unit_plural'] for u in units if u['unit_plural']])
+    strings.extend([u['unit_singular'] for u in units])
+    strings.extend([u['measurement_plural'] for u in units])

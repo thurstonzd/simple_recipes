@@ -103,28 +103,11 @@
     {% block ingredients %}
 
 	{% if data['ingredients'] %}
-	<ul>
-		{% for ingredient in data['ingredients'] %}
-		<li>
-			<span class="quantity">{{ ingredient['quantity_string'] }}</span>
-			{% if ingredient['measurement_id'] %}
-                <span class="measurement">
-					{% if ingredient['quantity'] > 1 %}{{ ingredient['measurement_plural'] }}
-					{% else %}{{ ingredient['measurement_singular'] }}
-					{% endif %}
-				</span>
-			{% endif %}
-			
-			<span class="ingredient_name">{{ ingredient['ingredient_name'] }}</span>
-		</li>
-		{% endfor %}
-	</ul>
+	{{ data['ingredients'] | markdown}}
 	{% endif %}
 	
 	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
-	<a class="no_portrait" href="{{ url_for('edit_recipe_ingredients', 
-				recipe_id=data['recipe_id'],
-				_anchor="ingredients_content") }}">
+	<a class="no_portrait" href="">
 		Edit Ingredients
 	</a>
 	{% endif %}
@@ -136,19 +119,11 @@
 	{% block instructions %}
 	
 	{% if data['instructions'] %}
-	<ol>
-	{% for instruction in data['instructions'] %}
-		<li>
-			{{ instruction['instruction'] | markdown }}
-		</li>
-	{% endfor %}
-	</ol>
+	{{data['instructions'] | markdown}}
 	{% endif %}
 	
 	{% if data and not form and current_user.is_authenticated and current_user.id == data.created_by %}
-	<a class="no_portrait" href="{{ url_for('edit_recipe_instructions', 
-				recipe_id=data['recipe_id'],
-				_anchor="instructions_content") }}">
+	<a class="no_portrait" href="">
 		Edit Instructions
 	</a>
 	{% endif %}

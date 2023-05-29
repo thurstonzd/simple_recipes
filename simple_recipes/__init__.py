@@ -24,7 +24,15 @@ login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 Talisman(app)
 
+#####################################################################
+# Unit registry stuff
 ureg = UnitRegistry()
+
+# define aliases for units
+ureg.define('@alias fluid_ounce = fl_oz')
+
+Q_ = ureg.Quantity
+#####################################################################
 
 from simple_recipes.controllers.tag_controllers import *
 from simple_recipes.controllers.recipe_controllers import *
@@ -53,7 +61,3 @@ def robot_txt():
 @app.route('/images/<path:file_name>')
 def lightbox_image(file_name):
     return app.send_static_file(f'lightbox/{file_name}')
-
-@app.route('/.well-known/acme-challenge/5ttsf7bbGr7RnHR6O_GRbWvviy05Qbdz-Jxu6yY14Fk')
-def certbot():
-    return "5ttsf7bbGr7RnHR6O_GRbWvviy05Qbdz-Jxu6yY14Fk.7EZGRXS31yJ1PvZD43gs_W_FTi3NBYl90OQEt_IFD-M"

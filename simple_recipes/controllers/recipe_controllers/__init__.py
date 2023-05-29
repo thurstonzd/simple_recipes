@@ -48,8 +48,9 @@ def get_recipe(recipe_id, subpath=None):
     if 'formdata' in session: formdata = session.pop('formdata')
     if 'pages' in session: session.pop('pages')
     
-    data = db.get_recipe(recipe_id, to_system, multiplier)
+    data = db.get_recipe(recipe_id)
     if data:
+        if data['total_time']: data['total_time_string']
         return render_template('recipes/recipe_base.html', data=data, multiplier=multiplier)
     else:
         abort(werkzeug.exceptions.NotFound.code)
