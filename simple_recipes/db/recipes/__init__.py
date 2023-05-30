@@ -7,6 +7,7 @@ from psycopg2 import sql
 from simple_recipes.db import get_connection, get_cursor
 from simple_recipes.db.users import get_user
 from simple_recipes.db.recipes.images import *
+from simple_recipes.formatting import get_readable_time
 
 def get_recipe(recipe_id):
     '''Get a dictionary object based on provided recipe ID
@@ -26,6 +27,7 @@ def get_recipe(recipe_id):
                     template = ''
                     h, m = divmod(data['total_time_minutes'], 60)
                     data['total_time'] = timedelta(hours=h, minutes=m)
+                    data['total_time_string'] = get_readable_time(h, m)
 
             return data
             
