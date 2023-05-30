@@ -10,3 +10,4 @@ venv/
 # local development stuff
 dev/
 .vscode/
+test.py
