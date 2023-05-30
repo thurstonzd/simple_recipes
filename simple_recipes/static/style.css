@@ -6,6 +6,10 @@ body {
     clear : left;
 }
 
+li + li {
+    padding-top: 1em;
+}
+
 a + a {
     margin-left: 0.25em;
 }
