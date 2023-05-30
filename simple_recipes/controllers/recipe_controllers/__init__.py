@@ -3,8 +3,13 @@ from flask import render_template, redirect, url_for, request, session, Response
 import flask_login
 
 from simple_recipes import app, login_manager
-from simple_recipes.db import recipes as db
+
+from simple_recipes.db import get_measurement_units, get_unit_strings
+from simple_recipes.db.recipes import get_recipe
 from simple_recipes.db.tags import get_tags
+
+from simple_recipes.unit_conversion import parse_quantity_string, convert_quantity, convert_recipe_text
+
 from simple_recipes.forms import RecipeForm, RecipeConversionForm, RecipeSearchForm, DeletionForm
 import simple_recipes.controllers
 from simple_recipes.controllers.recipe_controllers.recipe_images import *
@@ -50,8 +55,15 @@ def get_recipe(recipe_id, subpath=None):
     
     data = db.get_recipe(recipe_id)
     if data:
-        if data['total_time']: data['total_time_string']
-        return render_template('recipes/recipe_base.html', data=data, multiplier=multiplier)
+        if multiplier != 1 or to_system:
+            units = get_measurement_units()
+            data['servings'] *= multiplier
+            data['ingredients'] = convert_recipe_text(
+                data['ingredients'], 
+                multiplier=multiplier, 
+                units=units)
+
+        return render_template('recipes/recipe_base.html', data=data)
     else:
         abort(werkzeug.exceptions.NotFound.code)
 

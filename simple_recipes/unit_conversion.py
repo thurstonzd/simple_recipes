@@ -1,9 +1,8 @@
 import re
 import fractions
 
-from pint import UnitRegistry
-
 from simple_recipes.formatting import fractionalize, pluralize
+from simple_recipes import ureg, Q_
 
 fraction_translation = {
     # vulgar fractions
@@ -66,10 +65,6 @@ quantity_token_pattern = re.compile(r'''
     ([^}]*) # the tokenized text: Anything between curly brackets.
     \s*}}   # more optional space, followd by token end
 ''', re.VERBOSE)
-
-ureg = UnitRegistry()
-ureg.define('@alias fluid_ounce = fl_oz')
-Q_ = ureg.Quantity
 
 def parse_quantity_string(quantity_text):
     '''parses a string into a pint quantity,
