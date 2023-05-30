@@ -13,12 +13,19 @@ def fractionalize(x):
         return str(x)
     
     i, f = divmod(x, 1)
+
+    f = Fraction(f).limit_denominator(10)
+
+    # handle weird float issues
+    if f == 1:
+        i += 1
+        f = 0
+
     format_strings = []
     
     if i > 0: format_strings.append('{0:0.0f}')
     if f > 0: format_strings.append('{1}')
 
-    f = Fraction(f).limit_denominator(10)
     return ' '.join(format_strings).format(i, f)
 
 def get_time_format_string(h=0, m=0):
