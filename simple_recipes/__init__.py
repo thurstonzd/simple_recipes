@@ -26,7 +26,10 @@ Talisman(app)
 
 #####################################################################
 # Unit registry stuff
-ureg = UnitRegistry()
+
+# relaxed conversion for temperatures
+# see https://pint.readthedocs.io/en/stable/user/nonmult.html
+ureg = UnitRegistry(autoconvert_offset_to_baseunit = True)
 
 # define aliases for units
 ureg.define('@alias fluid_ounce = fl_oz')
