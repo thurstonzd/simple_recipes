@@ -55,13 +55,15 @@ def get_recipe(recipe_id, subpath=None):
     
     data = db.get_recipe(recipe_id)
     if data:
-        if multiplier != 1 or to_system:
-            units = get_measurement_units()
-            data['servings'] *= multiplier
-            data['ingredients'] = convert_recipe_text(
-                data['ingredients'], 
-                multiplier=multiplier, 
-                units=units)
+        units = get_measurement_units()
+        data['servings'] *= multiplier
+        data['ingredients'] = convert_recipe_text(
+            data['ingredients'], 
+            multiplier=multiplier, 
+            to_system=to_system,
+            units=units,
+            quantity_tag='span',
+            Class="quantity")
 
         return render_template('recipes/recipe_base.html', data=data)
     else:
@@ -70,7 +72,7 @@ def get_recipe(recipe_id, subpath=None):
 @app.route('/recipes/<int:recipe_id>/convert/')
 def convert_recipe(recipe_id):
     form = RecipeConversionForm()
-    form.unit_system.data = "US"
+    form.unit_system.data = "N/A"
     data = db.get_recipe(recipe_id)
     return render_template('recipes/recipe_convert.html', form=form, data=data)
         

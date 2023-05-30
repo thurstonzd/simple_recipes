@@ -39,6 +39,7 @@ class TagForm(FlaskForm):
 class RecipeConversionForm(FlaskForm):
     unit_system = RadioField('Unit System',
         choices = [
+            ("N/A", 'No Changes'),
             ('US', 'US Customary System'),
             ('SI', 'Metric System')
         ])
