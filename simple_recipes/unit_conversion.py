@@ -1,8 +1,12 @@
 import re
-import fractions
+from fractions import Fraction
+from decimal import Decimal, getcontext
 
 from simple_recipes.formatting import fractionalize, pluralize
 from simple_recipes import ureg, Q_
+
+# set precision for decimal library
+getcontext().prec = 6
 
 fraction_translation = {
     # vulgar fractions
@@ -77,14 +81,34 @@ def parse_quantity_string(quantity_text):
     parse_quantity_string('1 1/2 cup')  => <Quantity(1.5, 'cup')>
     parse_quantity_string('7')          => <Quantity(7.0, 'dimensionless')>
     '''
+    
     # strip text and replace vulgar fractions with parsable characters
     # (e.g. ¼ -> 1/4)
     trans = str.maketrans(fraction_translation)
     quantity_text = quantity_text.strip().translate(trans)
 
+    # remove periods from unit string, and replace spaces with underscores.
+    # e.g. `fl. oz` => `fl_oz`
+    quantity_text = re.sub(
+        r'([A-Z])\.', r'\1', 
+        quantity_text, 
+        flags=re.IGNORECASE)
+    
+    quantity_text = re.sub(
+        r'([A-Z])\s+', r'\1_', 
+        quantity_text, 
+        flags=re.IGNORECASE)
+
     my_match = quantity_pattern.search(quantity_text)
     number_part = my_match.group(1)
-    n = float(sum(map(fractions.Fraction, number_part.split())))
+    numbers = number_part.split(maxsplit=1)
+
+    if len(numbers) == 1: 
+        n = Fraction(numbers[0]).limit_denominator(10)
+    elif len(numbers) == 2:
+        n = int(numbers[0]) + Fraction(numbers[1]).limit_denominator(10)
+
+    n = n.numerator / Decimal(n.denominator)
 
     if len(my_match.groups()) > 1: # there's a unit string.
         return Q_(n, my_match.group(2))
@@ -115,7 +139,7 @@ def convert_quantity(quantity, to_system, units, min_threshold=None, max_thresho
 
     return to_quantity
 
-def convert_recipe_text(recipe_text, multiplier=1, to_system=None, units=None):
+def convert_recipe_text(recipe_text, multiplier=1, to_system=None, units=None, quantity_tag=None, **quantity_attribs):
     '''parses the provided text for tokenized measurements
     multiplies measurements by multipler
     (e.g. if multiplier is 3, {{ 3 cups }} becomes {{ 9 cupes }}
@@ -133,20 +157,8 @@ def convert_recipe_text(recipe_text, multiplier=1, to_system=None, units=None):
         if matchobj.group(1) == '!': 
             do_not_multiply = True
         try:
-            # remove periods from unit string, and replace spaces with underscores.
-            # e.g. `fl. oz` => `fl_oz`
-            quantity_string = re.sub(
-                r'([A-Z])\.', r'\1', 
-                quantity_string, 
-                flags=re.IGNORECASE)
-            
-            quantity_string = re.sub(
-                r'([A-Z])\s+', r'\1_', 
-                quantity_string, 
-                flags=re.IGNORECASE)
-
             quantity = parse_quantity_string(quantity_string)
-            if not do_not_multiply: quantity *= multiplier
+            if not do_not_multiply: quantity *= Decimal(multiplier)
             magnitude = quantity.magnitude
             #quantity.default_format = "~P" # short pretty format
 
@@ -175,6 +187,9 @@ def convert_recipe_text(recipe_text, multiplier=1, to_system=None, units=None):
             # return matchobj.group(0)
             print(e)
 
+        if quantity_tag:
+            attribs = ' '.join(f"{k.lower()}=\"{quantity_attribs[k]}\"" for k in quantity_attribs)
+            quantity_string = f"<{quantity_tag} {attribs}>{quantity_string}</{quantity_tag}>"
         return quantity_string
         
     converted = recipe_text
