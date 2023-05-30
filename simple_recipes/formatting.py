@@ -40,6 +40,10 @@ def get_readable_time(h=0, m=0):
     Example: 
     get_readable_time(1,3) => `1 hour 3 minutes`'''
     format_strings = []
+
+    h += m // 60
+    m = m % 60
+
     if h > 0: 
         format_strings.extend(['{0}', pluralize(h, 'hour', 'hours')])
     if m > 0: 
