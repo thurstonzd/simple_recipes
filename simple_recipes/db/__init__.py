@@ -11,7 +11,7 @@ def get_connection():
     elif 'DATABASE_URL' in os.environ:
         DATABASE_URL = os.environ['DATABASE_URL']
     else:
-        DATABASE_URL = 'host=localhost port=5433 dbname=recipes user=postgres password=admin'
+        DATABASE_URL = 'host=localhost port=5432 dbname=recipes user=postgres password=admin'
     return connect(DATABASE_URL)
         
 def get_cursor(cn):
@@ -89,6 +89,8 @@ def get_unit_strings(**criteria):
     units = get_measurement_units(**criteria)
     strings = []
 
-    strings.extend([u['unit_plural'] for u in units if u['unit_plural']])
-    strings.extend([u['unit_singular'] for u in units])
-    strings.extend([u['measurement_plural'] for u in units])
+    strings.extend([units[k]['unit_plural'] for k in units if units[k]['unit_plural']])
+    strings.extend([units[k]['unit_singular'] for k in units])
+    strings.extend([units[k]['unit_plural'] for k in units])
+
+    return strings
