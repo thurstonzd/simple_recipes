@@ -84,7 +84,7 @@ def add_recipe():
     tags = [(t['tag_id'], t['tag_name']) for t in get_tags()]
     form.recipe_tags.choices = tags
             
-    measurement_strings = db.get_measurement_strings()
+    unit_strings = get_unit_strings()
     
     if form.validate_on_submit():
         recipe_id = db.update_recipe_basic(form.data)
@@ -100,7 +100,7 @@ def add_recipe():
     else:
         form.created_by.data = flask_login.current_user.id
         return render_template('recipes/recipe_add.html', 
-            form=form, measurement_strings=measurement_strings)
+            form=form, unit_strings=unit_strings)
     
 @app.route('/recipes/<int:recipe_id>/edit/', methods=['GET', 'POST'])
 @app.route('/recipes/<int:recipe_id>/edit/basic/', methods=['GET', 'POST'])
