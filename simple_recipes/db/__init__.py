@@ -89,9 +89,10 @@ def get_unit_strings(**criteria):
     units = get_measurement_units(**criteria)
     strings = []
 
-    strings.extend([units[k]['unit_abbr'] for k in units if units[k]['unit_abbr']])
-    strings.extend([units[k]['unit_singular'] for k in units])
+    # do plurals, then singular, then abbr., to match on longest string first.
     strings.extend([units[k]['unit_plural'] for k in units])
+    strings.extend([units[k]['unit_singular'] for k in units])
+    strings.extend([units[k]['unit_abbr'] for k in units if units[k]['unit_abbr']])
 
     return strings
 
