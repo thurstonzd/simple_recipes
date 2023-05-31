@@ -1,10 +1,12 @@
+import re
+
 import werkzeug
 from flask import render_template, redirect, url_for, request, session, Response, abort, flash
 import flask_login
 
 from simple_recipes import app, login_manager
 
-from simple_recipes.db import get_measurement_units, get_unit_strings
+from simple_recipes.db import get_measurement_units, get_units_concatenated
 from simple_recipes.db.recipes import get_recipe
 from simple_recipes.db.tags import get_tags
 
@@ -84,7 +86,7 @@ def add_recipe():
     tags = [(t['tag_id'], t['tag_name']) for t in get_tags()]
     form.recipe_tags.choices = tags
             
-    unit_strings = get_unit_strings()
+    unit_string = get_units_concatenated("|")
     
     if form.validate_on_submit():
         recipe_id = db.update_recipe_basic(form.data)
@@ -98,9 +100,10 @@ def add_recipe():
         return redirect(url_for(session['pages'].pop(0), 
             recipe_id=recipe_id), code=307)
     else:
+        regex = r"/(\d+[\d\s./]*(" + unit_string + r")?)\s+/gi"
         form.created_by.data = flask_login.current_user.id
         return render_template('recipes/recipe_add.html', 
-            form=form, unit_strings=unit_strings)
+            form=form, quantity_regex=regex, unit_string=unit_string)
     
 @app.route('/recipes/<int:recipe_id>/edit/', methods=['GET', 'POST'])
 @app.route('/recipes/<int:recipe_id>/edit/basic/', methods=['GET', 'POST'])

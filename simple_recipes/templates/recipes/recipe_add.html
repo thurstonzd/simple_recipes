@@ -2,6 +2,24 @@
 {% block title %}New Recipe{% endblock %}
 
 {% block recipe %}
+
+    <script>
+        const quantity_pattern = {{ quantity_regex }}
+
+        {% raw %}
+        const token_pattern = /({{\s*)|(\s*}+)/gmi;
+
+        function untokenify_string(s) {
+            return s.replace(token_pattern, '')
+        }
+        
+        function tokenify_string(s) {
+            s = untokenify_string(s);
+            return s.replace(quantity_pattern, '{{ $1 }} ')
+        }
+        {% endraw %}
+    </script>
+
     <form method="POST">
     {{ form.csrf_token }}
     {{ form.created_by }}
@@ -25,24 +43,32 @@
 {% block ingredients %}
     {{ form.recipe_ingredients }}
     
-    <button id="tokenify" type="button">
+    <button id="tokenify_ingr" type="button">
         Tokenify
+    </button>
+
+    <button id="untokenify_ingr" type="button">
+        Remove Tokens
     </button>
     
     <script>
-        let measurement_strings = {{ measurement_strings | tojson }};
-        
-        let btn = document.getElementById("tokenify");
-        btn.onclick = tokenify_input;
-        
-        function tokenify_input() {
-            var input = document.getElementById(
-                "{{ form.recipe_ingredients.id }}");
-            measurement_strings.forEach(s => {
-                var pattern = new RegExp("\\s(" + s + "\\.?)\\s", "gmi");
-                input.value = input.value.replace(pattern, ' \[$1\] ');
-            });
+        const ing_input = document.getElementById(
+            "{{ form.recipe_ingredients.id }}");
+        {% raw %}
+        document.getElementById("tokenify_ingr").
+            onclick = tokenify_ingr;
+
+        document.getElementById("untokenify_ingr").
+            onclick = untokenify_ingr;
+
+        function untokenify_ingr() {
+            ing_input.value = untokenify_string(ing_input.value);
         }
+        
+        function tokenify_ingr() {
+            ing_input.value = tokenify_string(ing_input.value);
+        }
+        {% endraw %}
     </script>
 {% endblock ingredients %}
 
