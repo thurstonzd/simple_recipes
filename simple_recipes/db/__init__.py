@@ -89,8 +89,12 @@ def get_unit_strings(**criteria):
     units = get_measurement_units(**criteria)
     strings = []
 
-    strings.extend([units[k]['unit_plural'] for k in units if units[k]['unit_plural']])
+    strings.extend([units[k]['unit_abbr'] for k in units if units[k]['unit_abbr']])
     strings.extend([units[k]['unit_singular'] for k in units])
     strings.extend([units[k]['unit_plural'] for k in units])
 
     return strings
+
+def get_units_concatenated(join_char, **criteria):
+    unit_strings = get_unit_strings(**criteria)
+    return join_char.join(unit_strings)
