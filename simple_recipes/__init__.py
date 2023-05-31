@@ -22,7 +22,7 @@ Markdown(app, extensions=['tables', 'def_list'])
 # plugin registrations
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
-Talisman(app)
+Talisman(app, content_security_policy=False)
 
 #####################################################################
 # Unit registry stuff
